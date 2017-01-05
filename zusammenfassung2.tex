@@ -1,0 +1,170 @@
+\documentclass[german,headsepline,fleqn,parskip=half]{scrartcl}
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage{polyglossia}
+\setmainlanguage{german}
+
+\usepackage{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\ihead{\textbf{Der rote Faden der Vorlesung}\\Mathematische Logik}
+\ohead{Robert Schütz\\\today}
+
+\usepackage{enumerate}
+
+\usepackage{amsmath, mathtools, amsthm, amsfonts, amssymb}
+\theoremstyle{definition}
+\newtheorem*{dfn}{Definition}
+\newtheorem*{ex}{Beispiel}
+\theoremstyle{plain}
+\newtheorem*{thm}{Satz}
+
+\newcommand{\lng}{\mathcal{L}}
+\newcommand{\modA}{\mathcal{A}}
+\newcommand{\Mod}{\text{Mod}}
+
+\begin{document}
+	\begin{dfn}
+		Eine \emph{Theorie} $T=(\lng,\Sigma)$ besteht
+		\begin{itemize}
+			\item aus einer Sprache $\lng=((R_i\vert i\in I);(f_j\vert j\in J);(c_k\vert k\in K))$ und
+			\item einer Menge $\Sigma$ von $\lng$-Sätzen.
+		\end{itemize}
+	\end{dfn}
+	
+	\begin{dfn}
+		Eine $\lng$-Struktur $\modA=(A;(R_i^\modA\vert i\in I);(f_j^\modA\vert j\in J);(c_k^\modA\vert k\in K))$ besteht aus
+		\begin{itemize}
+			\item einer Menge $A\neq\emptyset$, dem Individuenbereich und
+			\item der Interpretation der Relations-, Funktions- und Konstantensymbole. Dabei gilt:
+				\begin{align*}
+					R_i^\modA&\subseteq A^{n_i} \\
+					f_j^\modA&:A^{m_j}\to A \\
+					c_k^\modA&\in A
+				\end{align*}
+		\end{itemize}
+	\end{dfn}
+
+	\begin{dfn}
+		Eine Struktur $\modA$ ist \emph{Modell} der Theorie $T=(\lng,\Sigma)$,
+		falls sie eine $\lng$-Struktur ist und
+		$\modA\models\sigma$ für alle $\sigma\in\Sigma$ gilt.
+		Das heißt, dass jeder Satz aus $\Sigma$ in dieser Struktur wahr ist ($\modA\models\Sigma$).
+		\[\Mod(T):=\{\modA\colon\modA\text{ ist Modell von }T\}\]
+		
+		Eine Theorie heißt \emph{erfüllbar},
+    falls sie ein Modell besitzt ($\Mod(T)\neq\emptyset$).
+	\end{dfn}
+	
+	\begin{ex}
+		Die Theorie $T=(\lng(\sim),\{\sigma_1\dots,\sigma_4\})$ der Äquivalenzrelationen mit genau zwei Äquivalenzklassen,
+		die durch die Axiome
+		\begin{align*}
+			\sigma_1&\equiv\forall x(x\sim x) \\
+			\sigma_2&\equiv\forall x\forall y(x\sim y\rightarrow y\sim x) \\
+			\sigma_3&\equiv\forall x\forall y\forall z(x\sim y\land y\sim z\rightarrow x\sim z) \\
+			\sigma_4&\equiv\exists x\exists y\forall z(\lnot(x\sim y)\land(z\sim x\lor z\sim y))
+		\end{align*}
+		definiert wird, ist erfüllbar,
+		denn $\mathcal{Z}=(\mathbb{Z};\{(m,n)\in\mathbb{Z}^2\colon m-n\text{ ist gerade}\})$ ist ein Modell von $T$.
+	\end{ex}
+
+	\begin{dfn}[Folgerung]
+		$T\models\varphi:\Leftrightarrow\modA\models\varphi\text{ für alle }\modA\in\Mod(T)$.
+	\end{dfn}
+
+	\begin{dfn}[Beweis]
+		Eine $\lng$-Formel $\varphi$ ist aus $T=(\lng,\Sigma)$ \emph{beweisbar},
+		falls es eine \underline{endliche} Folge $\psi_1,\dots,\psi_n$ von $\lng$-Formeln (genannt "Beweis") mit $\psi_n\equiv\varphi$ gibt,
+		sodass für jedes $k\in\{1,\dots,n\}$ gilt:
+		\begin{itemize}
+			\item $\psi_k$ ist ein Axiom oder
+			\item $\psi_k\in\Sigma$ oder
+			\item $\psi_k$ ist die Konklusion einer Regel
+				\[\frac{\chi_1,\dots,\chi_m}{\psi_k}\text{,}\]
+				wobei die Prämissen $\chi_1,\dots,\chi_m\in\{\psi_1,\dots,\psi_{k-1}\}$ schon vorher im Beweis auftauchen.
+		\end{itemize}
+	\end{dfn}
+
+	\begin{dfn}
+		content...
+	\end{dfn}
+
+	\begin{dfn}
+		\begin{align*}
+			T=(\lng,\Sigma)\text{ ist konsistent}
+			&:\Leftrightarrow\text{Es ex. ein $\lng$-Satz $\sigma$ mit }T\not\vdash\sigma \\
+			&\phantom{:}\Leftrightarrow\text{Es ex. kein $\lng$-Satz $\sigma$ mit }T\vdash\sigma\text{ \& }T\vdash\lnot\sigma\text{.}
+		\end{align*}
+	\end{dfn}
+
+	\begin{thm}[Korrektheitssatz]
+		$T\vdash\varphi\Rightarrow T\models\varphi$.
+		
+		Daraus folgt sofort das Konsistenzlemma: Jede erfüllbare Theorie ist konsistent.
+	\end{thm}
+	\begin{proof}
+		Der Korrektheitssatz folgt aus der Allgemeingültigkeit der Axiome und der Korrektheit der Regeln bzgl. Folgerungen.
+		
+		Sei $T=(\lng,\Sigma)$ eine erfüllbare Theorie.
+		Dann besitzt $T$ ein Modell $\modA$.
+		Für jeden $\lng$-Satz $\sigma$ gilt $\modA\models\sigma\Rightarrow\modA\not\models\lnot\sigma$.
+		Deshalb gibt es ein $\sigma$ mit $T\not\models\sigma$.
+		Angenommen $T\vdash\sigma$ für jeden $\lng$-Satz $\sigma$.
+		Dann folgt mit dem Korrektheitssatz $T\models\sigma$ für jeden $\lng$-Satz $\sigma$,
+		was ein zu obiger Feststellung Widerspruch ist.
+	\end{proof}
+
+	\begin{thm}[Erfüllbarkeitslemma]
+		$T$ ist konsistent $\Rightarrow$ $T$ ist erfüllbar.
+	\end{thm}
+
+	\begin{thm}[Vollständigkeitssatz]
+		$T\models\sigma\Rightarrow T\vdash\sigma$.
+		
+		Mit dem Korrektheitssatz folgt der Adäquatheitssatz:
+		$T\models\sigma\Leftrightarrow T\vdash\sigma$.
+	\end{thm}
+	\begin{proof}
+		\begin{align*}
+			T\models\sigma
+			&\Rightarrow T\cup\{\lnot\sigma\}\text{ nicht erfüllbar} &\text{(Zshg. zw. Folgerung und Erfüllbarkeit)} \\
+			&\Rightarrow T\cup\{\lnot\sigma\}\text{ inkonsistent} &\text{(Kontraposition des Erfüllbarkeitslemmas)} \\
+			&\Rightarrow T\vdash\sigma &\text{(Zshg. zw. Beweisbarkeit und Konsistenz)}
+		\end{align*}
+	\end{proof}
+
+	\begin{thm}[Kompaktheitssatz]
+		Eine Theorie $T$ ist genau dann erfüllbar,
+		wenn jede \underline{endliche} Teiltheorie $T_0\subseteq T$ erfüllbar ist.
+	\end{thm}
+	\begin{proof}
+		Der ist wichtig; ihr müsst ihn euch aber in den Folien anschauen.
+	\end{proof}
+	
+	\begin{ex}
+		Sei $\sigma_n\equiv\underbrace{1+\ldots+1}_{n\text{-mal}}\neq0$.
+		Wir wollen zeigen, dass die Theorie
+		\[T=(\lng(+,\cdot;0,1),\Sigma\cup\{\sigma_n\colon n\geq1\})\text{,}\]
+		der Körper unendlicher Charakteristik,
+		wobei $\Sigma$ die üblichen Körperaxiome enthalte,
+		erfüllbar ist.
+		
+		Sei dazu $T_0\subseteq T$ eine endliche Teiltheorie,
+		d.h. $T_0=(\lng(+,\cdot;0,1),\Sigma_0)$ mit $\Sigma_0\subseteq\Sigma\cup\{\sigma_n\colon n\geq1\}$ endlich.
+		Dann gibt es ein $p\in\mathbb{N}$ mit $\Sigma_0\subseteq\Sigma\cup\{\sigma_n\colon1\leq n<p\}$.
+		Sei ohne Einschränkung $p$ eine Primzahl, ansonsten wählen wir einfach die nächsthöhere.
+		Weil $\mathbb{Z}/p\mathbb{Z}$ ein Körper mit Charakteristik $p$ ist,
+		ist  $\modA=(\mathbb{Z}/p\mathbb{Z};+^\modA,\cdot^\modA;0^\modA,1^\modA)$ ein Modell von $T_0$.
+		Also ist $T_0$ erfüllbar und somit ist,
+		da $T_0$ eine beliebige endliche Teiltheorie war,
+		auch $T$ erfüllbar.
+	\end{ex}
+
+	Was bislang noch fehlt: Deduktionstheorem (?), vollständige Theorien, Henkin-Theorie, Termstruktur
+	
+	Was für die Zukunft noch wichtig wäre: elementar, $\Delta$-elementar,
+	elementare Äquivalenz (?), Isomorphie (?)
+	
+	Außerdem ist es hilfreich, den Beweis des Erfüllbarkeitslemmas (allerdings nicht unbedingt im Detail) zu kennen.
+	Der ist allerdings für dieses Format zu lang.
+\end{document}

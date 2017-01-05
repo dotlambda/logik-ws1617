@@ -1,0 +1,106 @@
+\documentclass[german,headsepline,fleqn,parskip=half]{scrartcl}
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage{polyglossia}
+\setmainlanguage{german}
+
+\usepackage{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\ihead{\textbf{Der rote Faden der Vorlesung}\\Mathematische Logik}
+\ohead{Robert Schütz\\\today}
+
+\usepackage{enumerate}
+
+\usepackage{amsmath, mathtools, amsthm, amsfonts, amssymb}
+\theoremstyle{definition}
+\newtheorem*{dfn}{Definition}
+\newtheorem*{ex}{Beispiel}
+\theoremstyle{plain}
+\newtheorem*{thm}{Satz}
+\newtheorem*{lem}{Lemma}
+
+\newcommand{\ag}[1]{\text{ag}[#1]}
+\newcommand{\erfb}[1]{\text{erfb}[#1]}
+\newcommand{\kd}[1]{\text{kd}[#1]}
+
+\newcommand{\äq}{\text{ äq }}
+\newcommand{\impl}{\text{ impl }}
+
+\begin{document}
+	\begin{dfn}
+		Sei $V$ eine Variablenmenge, d.h. $V\subseteq\{A_0,A_1,\dots\}$.
+		Dann heißt eine Abbildung $B:V\to\{0,1\}$ \textbf{Belegung}.
+		
+		Sei $B:V\to\{0,1\}$ eine Belegung. Dann ist die von $B$ induzierte \textbf{Bewertung} diejenige Abbildung $\hat{B}:F(V)\to\{0,1\}$
+		\footnote{Hierbei ist $F(V)=\{\varphi\colon V(\varphi)\subseteq V\}$ die Menge der Formeln, deren Variablen in $V$ liegen.},
+		die allen Formeln mit Variablen in $V$ ihren durch die Belegung der Variablen gegebenen Wahrheitswert zuordnet.
+		\footnote{Für die induktive Definition der Bewertung einer Formel siehe Kapitel 1, Folie 54.}
+		
+		Abkürzend schreiben wir oft $B(\varphi)$ statt $\hat{B}(\varphi)$.
+	\end{dfn}
+	
+	\begin{ex}
+		Sei $B:\{A,B\}\to\{0,1\}$ die durch $B(A)=1$ und $B(B)=0$ gegebene Bewertung.
+		
+		Dann ist $B(\varphi)=\hat{B}(\varphi)=0$ für $\varphi\equiv A\rightarrow B$.
+	\end{ex}
+
+	\begin{lem}(Koinzidenzlemma (KL))
+		Seien $B_1:V_1\to\{0,1\}$, $B_2:V_2\to\{0,1\}$ Belegungen und $\varphi$ eine Formel mit $V(\varphi)\subseteq V$.
+		Es gelte $B_1\upharpoonright V(\varphi)=B_2\upharpoonright V(\varphi)$, d.h. $B_1(A)=B_2(A)$ für alle $A\in V(\varphi)$.
+		
+		Dann ist $B_1(\varphi)=B_2(\varphi)$.
+	\end{lem}
+
+	\begin{ex}
+		Seien $B_1,B_2:\{A,B,C\}\to\{0,1\}$ die durch $B_1(A)=1,B_1(B)=B_1(C)=0$ und $B_2(A)=B_2(C)=1,B_2(B)=0$ gegebenen Belegungen.
+		
+		Dann gilt also $B_1(A)=B_2(A)$ und $B_1(B)=B_2(B)$, d.h. $B_1\upharpoonright\{A,B\}=B_2\upharpoonright\{A,B\}$. Weil $V(\varphi)=\{A,B\}$ für $\varphi\equiv A\rightarrow B$ gilt deshalb nach dem Koinzidenzlemma, dass $B_1(\varphi)=B_2(\varphi)$.
+	\end{ex}
+
+	\begin{dfn}
+		Eine Formel $\varphi$ heißt \textbf{allgemeingültig} ($\ag{\varphi}$) oder eine \textbf{Tautologie}, wenn jede Belegung $B:V(\varphi)\to\{0,1\}$ diese wahr macht, d.h. $B(\varphi)=1$.
+		
+		Eine Formel $\varphi$ heißt \textbf{erfüllbar} ($\erfb{\varphi}$), wenn es mindestens eine Belegung $B:V(\varphi)\to\{0,1\}$ gibt, die diese wahr macht.
+		
+		Eine Formel $\varphi$ heißt \textbf{kontradiktorisch} ($\kd{\varphi}$), wenn jede Belegung $B:V(\varphi)\to\{0,1\}$ diese falsch macht.
+	\end{dfn}
+
+	\begin{lem}
+		\begin{enumerate}[(i)]
+			\item $\ag{\varphi}\Rightarrow\erfb{\varphi}$
+			\item $\ag{\varphi}\Leftrightarrow\kd{\lnot\varphi}$
+			\item $\erfb{\varphi}\Leftrightarrow\text{nicht }\kd{\varphi}$
+			\item $\ag{\varphi}\text{ \& }\ag{\psi}\Leftrightarrow\ag{\varphi\land\psi}$
+			\item $\ag{\varphi\lor\psi}\Rightarrow\ag{\varphi}\text{ oder }\ag{\psi}$
+			\item $\erfb{\varphi}\text{ \& }\erfb{\psi}\Leftrightarrow\erfb{\varphi\land\psi}$
+			\item $\erfb{\varphi\lor\psi}\Rightarrow\erfb{\varphi}\text{ oder }\erfb{\psi}$
+		\end{enumerate}
+	\end{lem}
+
+	\begin{dfn}
+		\begin{enumerate}[(i)]
+			\item $\varphi\äq\psi:\Leftrightarrow$ für jedes $B:V(\varphi)\cup V(\psi)\to\{0,1\}$ gilt $B(\varphi)=B(\psi)$
+			\item $\varphi\impl\psi:\Leftrightarrow$ für jedes $B:V(\varphi)\cup V(\psi)\to\{0,1\}$ mit $B(\varphi)=1$ gilt $B(\psi)=1$
+		\end{enumerate}
+	\end{dfn}
+
+	\begin{lem}
+		\begin{enumerate}[(i)]
+			\item $\varphi\äq\psi\Leftrightarrow\ag{\varphi\leftrightarrow\psi}$
+			\item $\varphi\impl\psi\Leftrightarrow\ag{\varphi\rightarrow\psi}$
+		\end{enumerate}
+	\end{lem}
+
+	\begin{lem}(Einsetzungsregel)
+		Sei $\varphi$ allgemeingültig und $\psi$ eine beliebige Formel.
+		Dann ist auch $\varphi[\psi/A]$ allgemeingültig.
+		\footnote{Dabei erhalten wir $\varphi[\psi/A]$, indem wir in $\varphi$ alle Vorkommen von $A$ durch $\psi$ ersetzen.}
+	\end{lem}
+
+	\begin{ex}
+		Sei $\psi$ eine beliebige Formel.
+		Eine Wahrheitstabelle zeigt, dass $\ag{A\lor\lnot A}$ gilt.
+		Nach der Einsetzungsregel gilt dann auch $\ag{\psi\lor\lnot\psi}$.
+	\end{ex}
+\end{document}
